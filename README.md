@@ -74,9 +74,9 @@ Notes :
 
 	pid_t	fork(void);`
 
+Fork() creates a new process by duplicating the calling process. The new process is referred as the child process.
 
-
--> pipe :
+- pipe :
 
 -> unlink :
 
