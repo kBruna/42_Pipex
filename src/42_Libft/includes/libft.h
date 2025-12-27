@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:33:21 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/18 15:07:44 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/27 11:39:56 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,18 @@ enum	e_std
 	STD_OUT,
 	STD_ERR,
 	MAX_FD = 1024
+};
+
+enum	e_error
+{
+	SUCCESS,
+	ERROR
+};
+
+enum	e_on_off
+{
+	OFF,
+	ON
 };
 
 typedef struct s_list
