@@ -1,4 +1,4 @@
-# ---- Colors -----
+#---- Colors -----
 
 C_BLUE	= \033[0;34
 C_GREEN	= \033[0;32
@@ -30,6 +30,11 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L$(DIR_LIBFT) -lft -o $@
 	@echo "\n$(C_GREEN);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
+valgrind: $(LIBFT) $(OBJS)
+	@echo '\n$(C_BLUE);1m\t-> Compiling with test flags\n$(C_END)"
+	$(CC) $(CFLAGS) $(C_TEST) $(OBJS) -L$(DIR_LIBFT) -lft -o $@
+	@echo "\n$(C_BLUE);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
+
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(C_BLUE);m\t-> $@ compiled\n$(C_END)"
@@ -53,4 +58,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind
