@@ -76,7 +76,16 @@ Notes :
 
 Fork() creates a new process by duplicating the calling process. The new process is referred as the child process.
 
-- pipe :
+-> pipe :
+`	#include <unistd.h>
+
+	int	pipe(int pipefd[2]);
+
+	#define _GNU_SOURCE	//feature_test_macros(7)
+	#include <fcntl.h>
+	#include <unistd.h>`
+
+pipe() creates a pipe, a unidirectional data channel that can be used for interprocess communication
 
 -> unlink :
 
