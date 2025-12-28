@@ -20,6 +20,7 @@ OBJS	= $(SRCS:.c=.o)
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
 
+ARGS ?= 
 
 # ---- Recipes -----
 
@@ -30,10 +31,17 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L$(DIR_LIBFT) -lft -o $@
 	@echo "\n$(C_GREEN);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
-valgrind: $(LIBFT) $(OBJS)
-	@echo '\n$(C_BLUE);1m\t-> Compiling with test flags\n$(C_END)"
+val: $(LIBFT) $(OBJS)
+	@echo "\n$(C_BLUE);1m\t-> Compiling with test flags\n$(C_END)"
 	$(CC) $(CFLAGS) $(C_TEST) $(OBJS) -L$(DIR_LIBFT) -lft -o $@
 	@echo "\n$(C_BLUE);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
+
+mem: $(NAME)
+	$(shell valgrind	--leak-check=full \
+				--show-leak-kinds=all	\
+				--track-fds=yes			\
+				--trace-children=yes	\
+				--track-origins=yes ./pipex $(ARGS))
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -58,4 +66,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re val mem

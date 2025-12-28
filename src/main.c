@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 22:15:09 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/27 18:45:18 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/27 20:27:33 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,25 @@
 char	**path_parsing(char **envp)
 {
 	int		index;
-	char	*temp;
+	//char	*temp;
 	char	*env_path;
 	char	**path_split;
 
 	index = 0;
+	env_path = NULL;
 	while (envp[index] != NULL)
 	{
-		if (!ft_strncmp(envp[index], "PATH", 4))
+		if (!ft_strncmp(envp[index], "PATH=", 5))
 		{
 			env_path = envp[index];
 			break ;
 		}
 		index++;
 	}
-	path_split = ft_split(env_path, ':');
-	temp = path_split[0];
+	path_split = ft_split(&env_path[4], ':');
+	/*temp = path_split[0];
 	path_split[0] = ft_strdup(ft_strchr(temp, '/'));
-	free(temp);
+	free(temp);*/
 	return (path_split);
 }
 
@@ -67,7 +68,7 @@ void	pipex_init(int argc, char **argv, int *infile, int *outfile)
 
 	if (argc < 3)
 	{
-		ft_putstr_fd("Error: Insufficient parameters", 2);
+		ft_putstr_fd("Error: Insufficient parameters\n", 2);
 		exit (ERROR);
 	}
 	*infile = open(argv[1], O_RDONLY);
