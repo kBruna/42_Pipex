@@ -1,0 +1,40 @@
+# Suprime leaks de qualquer binário em /bin
+{
+   bin_commands_leak
+   Memcheck:Leak
+   ...
+   obj:/bin/*
+}
+
+# Suprime leaks de qualquer binário em /usr/bin
+{
+   usr_bin_commands_leak
+   Memcheck:Leak
+   ...
+   obj:/usr/bin/*
+}
+
+# Suprime leaks de libc (biblioteca do sistema)
+{
+   libc_leaks
+   Memcheck:Leak
+   ...
+   obj:*/libc-*.so
+}
+
+# Suprime leaks de bash internals
+{
+   bash_internals
+   Memcheck:Leak
+   ...
+   obj:/bin/bash
+}
+
+# Suprime leaks de qualquer executável que não seja o seu
+{
+   external_executables
+   Memcheck:Leak
+   ...
+   obj:*
+   fun:execve
+}
