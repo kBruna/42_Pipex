@@ -10,7 +10,7 @@ C_END	= \033[0m
 
 NAME	= pipex
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
 SRCS_FILES	= main.c
@@ -33,7 +33,7 @@ $(NAME): $(LIBFT) $(OBJS)
 
 val: $(LIBFT) $(OBJS)
 	@echo "\n$(C_BLUE);1m\t-> Compiling with test flags\n$(C_END)"
-	$(CC) $(CFLAGS) $(C_TEST) $(OBJS) -L$(DIR_LIBFT) -lft -o $@
+	$(CC) $(CFLAGS) $(C_TEST) $(OBJS) -L$(DIR_LIBFT) -lft -o $(NAME)
 	@echo "\n$(C_BLUE);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
 mem: $(NAME)
