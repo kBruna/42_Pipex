@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 15:34:40 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/28 16:54:18 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/29 14:42:42 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,22 @@
 # include <stdio.h>
 # include <sys/wait.h>
 
+typedef struct	s_cmd
+{
+	char	**cmd1;
+	char	**cmd2;
+}				t_cmd;
+
+// ----------- Parsing.c -------------
 char	**path_parsing(char **envp);
+char	**arg_parse(char **envp);
+void	arg_check(int argc, char **argv);
+
+// ----------- Pipex_utils.c ---------
 void	free_path(char **split);
 void	error_free(char	**str, int fd1, int fd2);
+
+// ----------- Main.c ----------------
 void	pipex_init(int argc, char **argv, int *infile, int *outfile);
-void	arg_check(int argc, char **argv);
-char	**arg_parse(char **envp);
 
 #endif
