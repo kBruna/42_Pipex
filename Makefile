@@ -13,9 +13,14 @@ CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
-SRCS_FILES	= main.c
-SRCS	= src/$(SRCS_FILES)
-OBJS	= $(SRCS:.c=.o)
+SRCS_FILES	= 	\
+				pipex_util.c	\
+				parsing.c		\
+				main.c
+
+SRCS		= $(addprefix src/, $(SRCS_FILES))
+OBJS_DIR 	= obj
+OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -37,13 +42,13 @@ val: $(LIBFT) $(OBJS)
 	@echo "\n$(C_BLUE);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
 mem: $(NAME)
-	$(shell valgrind	--leak-check=full \
-				--show-leak-kinds=all	\
-				--track-fds=yes			\
+	$(shell valgrind --suppressions=pipex.supp --track-fds=yes	\
+				--leak-check=full		\
 				--trace-children=yes	\
 				--track-origins=yes ./pipex $(ARGS))
 
-%.o: %.c
+$(OBJS_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(C_BLUE);m\t-> $@ compiled\n$(C_END)"
 
@@ -56,7 +61,7 @@ $(LIBFT) :
 	
 clean:
 	@$(MAKE) -sC $(DIR_LIBFT) $@
-	@rm -fr $(OBJS)
+	@rm -fr src/$(OBJS)
 	@echo "\n$(C_RED)m\t-> OBJs Deleted$(C_END)"
 
 fclean : clean
