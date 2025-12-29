@@ -1,0 +1,145 @@
+.:
+total 44
+-rw-r--r-- 1 buehara candidate     0 Dec 28 12:32 infile
+-rw-r--r-- 1 buehara candidate  1414 Dec 27 20:27 Makefile
+-rwxr-xr-x 1 buehara candidate 21520 Dec 27 20:47 pipex
+-rw-r--r-- 1 buehara candidate  1435 Dec 27 18:44 pipex.h
+-rw-r--r-- 1 buehara candidate  4371 Dec 26 20:32 README.md
+drwxr-xr-x 3 buehara candidate  4096 Dec 28 11:22 src
+
+./src:
+total 16
+drwxr-xr-x 5 buehara candidate 4096 Dec 27 20:47 42_Libft
+-rw-r--r-- 1 buehara candidate 4597 Dec 27 20:47 main.c
+-rw-r--r-- 1 buehara candidate 4064 Dec 27 20:47 main.o
+
+./src/42_Libft:
+total 116
+drwxr-xr-x 2 buehara candidate  4096 Dec 27 18:37 includes
+-rw-r--r-- 1 buehara candidate 67900 Dec 27 20:47 libft.a
+-rw-r--r-- 1 buehara candidate  2322 Dec 27 11:29 Makefile
+drwxr-xr-x 4 buehara candidate  4096 Dec 27 20:47 obj
+-rw-r--r-- 1 buehara candidate 30485 Dec 24 22:12 README.md
+drwxr-xr-x 4 buehara candidate  4096 Dec 24 22:29 src
+
+./src/42_Libft/includes:
+total 12
+-rw-r--r-- 1 buehara candidate 1021 Dec 24 22:12 ft_printf.h
+-rw-r--r-- 1 buehara candidate 1513 Dec 24 22:12 get_next_line.h
+-rw-r--r-- 1 buehara candidate 3252 Dec 27 18:37 libft.h
+
+./src/42_Libft/obj:
+total 180
+-rw-r--r-- 1 buehara candidate 1288 Dec 27 20:47 ft_atoi.o
+-rw-r--r-- 1 buehara candidate 1032 Dec 27 20:47 ft_bzero.o
+-rw-r--r-- 1 buehara candidate 1432 Dec 27 20:47 ft_calloc.o
+-rw-r--r-- 1 buehara candidate 1224 Dec 27 20:47 ft_isalnum.o
+-rw-r--r-- 1 buehara candidate 1032 Dec 27 20:47 ft_isalpha.o
+-rw-r--r-- 1 buehara candidate 1016 Dec 27 20:47 ft_isascii.o
+-rw-r--r-- 1 buehara candidate 1016 Dec 27 20:47 ft_isdigit.o
+-rw-r--r-- 1 buehara candidate 1016 Dec 27 20:47 ft_isprint.o
+-rw-r--r-- 1 buehara candidate 1792 Dec 27 20:47 ft_itoa.o
+-rw-r--r-- 1 buehara candidate 1200 Dec 27 20:47 ft_lstadd_back_bonus.o
+-rw-r--r-- 1 buehara candidate 1016 Dec 27 20:47 ft_lstadd_front_bonus.o
+-rw-r--r-- 1 buehara candidate 1232 Dec 27 20:47 ft_lstclear_bonus.o
+-rw-r--r-- 1 buehara candidate 1168 Dec 27 20:47 ft_lstdelone_bonus.o
+-rw-r--r-- 1 buehara candidate 1064 Dec 27 20:47 ft_lstiter_bonus.o
+-rw-r--r-- 1 buehara candidate 1088 Dec 27 20:47 ft_lstlast_bonus.o
+-rw-r--r-- 1 buehara candidate 1360 Dec 27 20:47 ft_lstmap_bonus.o
+-rw-r--r-- 1 buehara candidate 1184 Dec 27 20:47 ft_lstnew_bonus.o
+-rw-r--r-- 1 buehara candidate 1032 Dec 27 20:47 ft_lstsize_bonus.o
+-rw-r--r-- 1 buehara candidate 1096 Dec 27 20:47 ft_memchr.o
+-rw-r--r-- 1 buehara candidate 1144 Dec 27 20:47 ft_memcmp.o
+-rw-r--r-- 1 buehara candidate 1112 Dec 27 20:47 ft_memcpy.o
+-rw-r--r-- 1 buehara candidate 1200 Dec 27 20:47 ft_memmove.o
+-rw-r--r-- 1 buehara candidate 1040 Dec 27 20:47 ft_memset.o
+-rw-r--r-- 1 buehara candidate 1128 Dec 27 20:47 ft_putchar_fd.o
+-rw-r--r-- 1 buehara candidate 1336 Dec 27 20:47 ft_putendl_fd.o
+-rw-r--r-- 1 buehara candidate 1496 Dec 27 20:47 ft_putnbr_fd.o
+-rw-r--r-- 1 buehara candidate 1200 Dec 27 20:47 ft_putstr_fd.o
+-rw-r--r-- 1 buehara candidate 3048 Dec 27 20:47 ft_split.o
+-rw-r--r-- 1 buehara candidate 1080 Dec 27 20:47 ft_strchr.o
+-rw-r--r-- 1 buehara candidate 1304 Dec 27 20:47 ft_strdup.o
+-rw-r--r-- 1 buehara candidate 1048 Dec 27 20:47 ft_striteri.o
+-rw-r--r-- 1 buehara candidate 1568 Dec 27 20:47 ft_strjoin.o
+-rw-r--r-- 1 buehara candidate 1408 Dec 27 20:47 ft_strlcat.o
+-rw-r--r-- 1 buehara candidate 1168 Dec 27 20:47 ft_strlcpy.o
+-rw-r--r-- 1 buehara candidate 1032 Dec 27 20:47 ft_strlen.o
+-rw-r--r-- 1 buehara candidate 1352 Dec 27 20:47 ft_strmapi.o
+-rw-r--r-- 1 buehara candidate 1192 Dec 27 20:47 ft_strncmp.o
+-rw-r--r-- 1 buehara candidate 1272 Dec 27 20:47 ft_strnstr.o
+-rw-r--r-- 1 buehara candidate 1208 Dec 27 20:47 ft_strrchr.o
+-rw-r--r-- 1 buehara candidate 1664 Dec 27 20:47 ft_strtrim.o
+-rw-r--r-- 1 buehara candidate 1728 Dec 27 20:47 ft_substr.o
+-rw-r--r-- 1 buehara candidate 1016 Dec 27 20:47 ft_tolower.o
+-rw-r--r-- 1 buehara candidate 1016 Dec 27 20:47 ft_toupper.o
+drwxr-xr-x 2 buehara candidate 4096 Dec 27 20:47 gnl
+drwxr-xr-x 2 buehara candidate 4096 Dec 27 20:47 printf
+
+./src/42_Libft/obj/gnl:
+total 8
+-rw-r--r-- 1 buehara candidate 2760 Dec 27 20:47 get_next_line.o
+-rw-r--r-- 1 buehara candidate 3272 Dec 27 20:47 get_next_line_utils.o
+
+./src/42_Libft/obj/printf:
+total 4
+-rw-r--r-- 1 buehara candidate 3920 Dec 27 20:47 ft_printf.o
+
+./src/42_Libft/src:
+total 188
+-rw-r--r-- 1 buehara candidate 1365 Dec 24 22:12 ft_atoi.c
+-rw-r--r-- 1 buehara candidate 1372 Dec 24 22:12 ft_atol.c
+-rw-r--r-- 1 buehara candidate 1095 Dec 24 22:12 ft_bzero.c
+-rw-r--r-- 1 buehara candidate 1277 Dec 24 22:12 ft_calloc.c
+-rw-r--r-- 1 buehara candidate 1014 Dec 24 22:12 ft_isalnum.c
+-rw-r--r-- 1 buehara candidate 1025 Dec 24 22:12 ft_isalpha.c
+-rw-r--r-- 1 buehara candidate 1001 Dec 24 22:12 ft_isascii.c
+-rw-r--r-- 1 buehara candidate 1004 Dec 24 22:12 ft_isdigit.c
+-rw-r--r-- 1 buehara candidate 1001 Dec 24 22:12 ft_isprint.c
+-rw-r--r-- 1 buehara candidate 1019 Dec 24 22:29 ft_isspace.c
+-rw-r--r-- 1 buehara candidate 1634 Dec 24 22:12 ft_itoa.c
+-rw-r--r-- 1 buehara candidate 1115 Dec 24 22:12 ft_lstadd_back_bonus.c
+-rw-r--r-- 1 buehara candidate 1008 Dec 24 22:12 ft_lstadd_front_bonus.c
+-rw-r--r-- 1 buehara candidate 1182 Dec 24 22:12 ft_lstclear_bonus.c
+-rw-r--r-- 1 buehara candidate 1056 Dec 24 22:12 ft_lstdelone_bonus.c
+-rw-r--r-- 1 buehara candidate 1083 Dec 24 22:12 ft_lstiter_bonus.c
+-rw-r--r-- 1 buehara candidate 1125 Dec 24 22:12 ft_lstlast_bonus.c
+-rw-r--r-- 1 buehara candidate 1311 Dec 24 22:12 ft_lstmap_bonus.c
+-rw-r--r-- 1 buehara candidate 1110 Dec 24 22:12 ft_lstnew_bonus.c
+-rw-r--r-- 1 buehara candidate 1102 Dec 24 22:12 ft_lstsize_bonus.c
+-rw-r--r-- 1 buehara candidate 1172 Dec 24 22:12 ft_memchr.c
+-rw-r--r-- 1 buehara candidate 1288 Dec 24 22:12 ft_memcmp.c
+-rw-r--r-- 1 buehara candidate 1231 Dec 24 22:12 ft_memcpy.c
+-rw-r--r-- 1 buehara candidate 1352 Dec 24 22:12 ft_memmove.c
+-rw-r--r-- 1 buehara candidate 1097 Dec 24 22:12 ft_memset.c
+-rw-r--r-- 1 buehara candidate  982 Dec 24 22:12 ft_putchar_fd.c
+-rw-r--r-- 1 buehara candidate 1018 Dec 24 22:12 ft_putendl_fd.c
+-rw-r--r-- 1 buehara candidate 1168 Dec 24 22:12 ft_putnbr_fd.c
+-rw-r--r-- 1 buehara candidate 1044 Dec 24 22:12 ft_putstr_fd.c
+-rw-r--r-- 1 buehara candidate 2471 Dec 24 22:12 ft_split.c
+-rw-r--r-- 1 buehara candidate 1062 Dec 24 22:12 ft_strchr.c
+-rw-r--r-- 1 buehara candidate 1114 Dec 24 22:12 ft_strdup.c
+-rw-r--r-- 1 buehara candidate 1039 Dec 24 22:12 ft_striteri.c
+-rw-r--r-- 1 buehara candidate 1190 Dec 24 22:12 ft_strjoin.c
+-rw-r--r-- 1 buehara candidate 1410 Dec 24 22:12 ft_strlcat.c
+-rw-r--r-- 1 buehara candidate 1245 Dec 24 22:12 ft_strlcpy.c
+-rw-r--r-- 1 buehara candidate 1056 Dec 24 22:12 ft_strlen.c
+-rw-r--r-- 1 buehara candidate 1228 Dec 24 22:12 ft_strmapi.c
+-rw-r--r-- 1 buehara candidate 1210 Dec 24 22:12 ft_strncmp.c
+-rw-r--r-- 1 buehara candidate 1377 Dec 24 22:12 ft_strnstr.c
+-rw-r--r-- 1 buehara candidate 1101 Dec 24 22:12 ft_strrchr.c
+-rw-r--r-- 1 buehara candidate 1340 Dec 24 22:12 ft_strtrim.c
+-rw-r--r-- 1 buehara candidate 1395 Dec 24 22:12 ft_substr.c
+-rw-r--r-- 1 buehara candidate  973 Dec 24 22:12 ft_tolower.c
+-rw-r--r-- 1 buehara candidate  974 Dec 24 22:12 ft_toupper.c
+drwxr-xr-x 2 buehara candidate 4096 Dec 24 22:12 gnl
+drwxr-xr-x 2 buehara candidate 4096 Dec 24 22:12 printf
+
+./src/42_Libft/src/gnl:
+total 8
+-rw-r--r-- 1 buehara candidate 2337 Dec 24 22:12 get_next_line.c
+-rw-r--r-- 1 buehara candidate 3357 Dec 24 22:12 get_next_line_utils.c
+
+./src/42_Libft/src/printf:
+total 4
+-rw-r--r-- 1 buehara candidate 2914 Dec 24 22:12 ft_printf.c
