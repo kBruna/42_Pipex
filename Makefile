@@ -20,7 +20,7 @@ SRCS_FILES	= 	\
 
 SRCS		= $(addprefix src/, $(SRCS_FILES))
 OBJS_DIR 	= obj
-OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
+OBJS		= $(SRCS:$(src/%.c=$(OBJS_DIR)/%.o)
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -45,7 +45,9 @@ mem: $(NAME)
 	$(shell valgrind --suppressions=pipex.supp --track-fds=yes	\
 				--leak-check=full		\
 				--trace-children=yes	\
-				--track-origins=yes ./pipex $(ARGS))
+				--track-origins=yes 	\
+				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+				./pipex $(ARGS))
 
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)
@@ -61,7 +63,7 @@ $(LIBFT) :
 	
 clean:
 	@$(MAKE) -sC $(DIR_LIBFT) $@
-	@rm -fr src/$(OBJS)
+	@rm -fr $(OBJS_DIR)
 	@echo "\n$(C_RED)m\t-> OBJs Deleted$(C_END)"
 
 fclean : clean
