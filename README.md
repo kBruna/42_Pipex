@@ -1,7 +1,16 @@
 # Pipex
 A 42SP school project.
 
+Notes:
 
+	To do the HERE_DOC function:
+	- GNL inside a loop;
+	- Loop with break comparing with LIMITER\n\0;
+	- GNL receives input from user until a line with LIMITER, then the loop breaks.
+	- Input is put inside a temp file to be parsed to cmd1.
+	- Temp file must be deleted after.
+	- Outfile must be created before, if needed.
+	- At first, a check if argv[1] is 'here_doc', then store argv[2] that will be the LIMITER.
 
 New functions:
 
