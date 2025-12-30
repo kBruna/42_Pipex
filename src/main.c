@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 22:15:09 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/29 14:40:54 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/29 18:16:22 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	pipex_init(int argc, char **argv, int *infile, int *outfile)
 		error_free(NULL, NO_FD, NO_FD);
 	*infile = open(argv[1], O_RDONLY);
 	if (*infile == -1)
-		error_free(NULL, NO_FD, NO_FD);
+		error_free(NULL, *outfile, NO_FD);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -81,11 +81,11 @@ int	main(int argc, char **argv, char **envp)
 		cmd.cmd1 = ft_split(argv[2], ' ');
 		if (!cmd.cmd1)
 			exit (ERROR);
-		if (access(cmd.cmd1[0], X_OK) == -1)
+		if (access(cmd.cmd1[0], F_OK | X_OK) == -1)
 		{
 			path = ft_strjoin(path_join[idx], cmd.cmd1[0]);
-			if (!path)		// MALLOC ERROR 
-				exit (ERROR);
+			if (!path)
+				error_free(cmd.cmd1, NO_FD, NO_FD);
 			while (path && access(path, X_OK) == -1)
 			{
 				idx++;
@@ -127,18 +127,18 @@ int	main(int argc, char **argv, char **envp)
 		if (access(cmd.cmd2[0], X_OK) == -1)
 		{
 			path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
-			if (!path)		// MALLOC ERROR 
-				exit (ERROR);
+			if (!path)
+				free_error(cmd.cmd2, NO_FD, NO_FD);
 			while (path && access(path, X_OK) == -1)
 			{
 				idx++;
 				free(path);
 				path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
-				if (!path)		// MALLOC ERROR
-					exit (ERROR);
+				if (!path)
+					free_path(cmd.cmd2, NO_FD, NO_FD);
 			}
 			if (!path)
-				exit (ERROR);
+				free_path(cmd.cmd2, NO_FD, NO_FD);
 		}
 		else
 			path = cmd.cmd2[0];
@@ -148,16 +148,14 @@ int	main(int argc, char **argv, char **envp)
 			error_free(path_join, infile, outfile);
 		}
 	}
-	wait(0);
-	wait(0);
 	if (path)
 		free(path);
 	free_path(path_join);
-	free_path(cmd.cmd1);
-	free_path(cmd.cmd2);
 	close(infile);
 	close(outfile);
 	close(fd[0]);
 	close(fd[1]);
+	wait(0);
+	wait(0);
 	return (SUCCESS);
 }
