@@ -2,3 +2,5 @@
 *.o
 pipex
 a.out
+outfile
+libft.a
