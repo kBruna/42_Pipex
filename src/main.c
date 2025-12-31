@@ -6,156 +6,136 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 22:15:09 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/29 18:16:22 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/30 22:08:32 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	pipex_init(int argc, char **argv, int *infile, int *outfile)
-{
-	int	file_permissions;
-
-	if (argc < 5)
-	{
-		ft_putstr_fd("Error: Insufficient parameters\n", 2);
-		exit (ERROR);
-	}
-	if (!ft_strncmp(argv[1], "here_doc", 9))
-		file_permissions = O_CREAT | O_WRONLY | O_APPEND;
-	else
-		file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
-	*outfile = open(argv[argc - 1], file_permissions, 0644);
-	if (*outfile == -1)
-		error_free(NULL, NO_FD, NO_FD);
-	*infile = open(argv[1], O_RDONLY);
-	if (*infile == -1)
-		error_free(NULL, *outfile, NO_FD);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*path;
-	int		infile;
-	int		outfile;
-	char	**path_join;
-	t_cmd	cmd;
-	int		fd[2];
-	pid_t	pid[2];
+	//int		infile;
+	//int		outfile;
+	//char	**path_join;
+	//int		fd[2];
+	//pid_t	pid[2];
 	int		index;
 	int		idx;
+	//t_head	headlst;
+	t_list	cmdlst;
+	int		wait_idx;
+	t_pipex	pipex;
 
 	path = NULL;
+	pipex = (t_pipex){0};
 	arg_check(argc, argv); // TEST OK insofar
-	pipex_init(argc, argv, &infile, &outfile); // TEST OK insofar
-	path_join = arg_parse(envp); // TEST OK insofar
+	pipex_init(argc, argv, &pipex); // TEST OK insofar
+	pipex.path_join = arg_parse(envp); // TEST OK insofar
+	pipex.headlst = create_cmd_lst(argc, argv); // TEST OK insofar
 
+	// TEST PRINT LOOP
+//	t_list *temp;
+//	
+//	temp = headlst.list;
 //	idx = 0;							// Test PRINT LOOP
-//	while (path_join[idx] != NULL)
-//		ft_printf("->\t%s\n", path_join[idx++]);
+//	while (temp != NULL)
+//	{
+//		ft_printf(" ->\t%s\n", ((char **)temp->content)[0]);
+//		temp = temp->next;
+//	}
 
+	int	count;
+
+	count = 1;
+	pipex.oldfd = -1;
+	pipex.fd[0] = -1;
+	pipex.fd[1] = -1;
+	pipex.file[0] = -1;
+	pipex.file[1] = -1;
+	cmdlst = *pipex.headlst.list;
+	pipex.pid = (pid_t *)ft_calloc(pipex.headlst.lst_size, sizeof(pid_t));
 	path = NULL;
-	if (pipe(fd) == -1)
-		error_free(path_join, infile, outfile);
-	pid[0] = fork();
-	if (pid[0] == -1)
-		error_free(path_join, infile, outfile);
-	idx = 0;
-	index = 0;
-	if (pid[0] == 0)
+	while (count < pipex.headlst.lst_size)
 	{
-		if (dup2(infile, 0) == -1)
+		if (count < pipex.headlst.lst_size - 1)
+			if (pipe(pipex.fd) == -1)
+				error_free(&pipex);
+		pipex.pid[0] = fork();
+		if (pipex.pid[0] == -1)
+			error_free(&pipex);
+		idx = 0;
+		index = 0;
+		if (pipex.pid[count] == 0)	// CHILD PROCCESS
 		{
-			close(fd[1]);
-			error_free(path_join, infile, outfile);
-		}
-		if (dup2(fd[1], 1) == -1)
-		{
-			close(fd[1]);
-			error_free(path_join, infile, outfile);
-		}
-		close(fd[0]);
-		close(outfile);
-		close(infile);
-		close(fd[1]);
-		cmd.cmd1 = ft_split(argv[2], ' ');
-		if (!cmd.cmd1)
-			exit (ERROR);
-		if (access(cmd.cmd1[0], F_OK | X_OK) == -1)
-		{
-			path = ft_strjoin(path_join[idx], cmd.cmd1[0]);
-			if (!path)
-				error_free(cmd.cmd1, NO_FD, NO_FD);
-			while (path && access(path, X_OK) == -1)
+			if (pipex.oldfd == -1)
 			{
-				idx++;
-				free(path);
-				path = ft_strjoin(path_join[idx], cmd.cmd1[0]);
-				if (!path)
-					exit (ERROR);
+				pipex.file[0] = open(pipex.infile, O_RDONLY);
+				if (pipex.file[0] == -1)
+					error_free(&pipex);
+				if (dup2(pipex.file[0], STD_IN) == -1)
+					error_free(&pipex);
 			}
-			if (!path)
-				exit (ERROR);
-		}
-		else
-			path = cmd.cmd1[0];
-		if (execve(path, cmd.cmd1, envp) == -1)
-		{
+			else
+				if (dup2(pipex.oldfd, STD_IN) == -1)
+					error_free(&pipex);
+			if (count == pipex.headlst.lst_size - 0)
+			{
+				pipex.file[1] = open(pipex.outfile, pipex.file_permissions, 0644);
+				if (pipex.file[1] == -1)
+					error_free(&pipex);
+				if (dup2(pipex.fd[1], pipex.file[1] == -1))
+					error_free(&pipex);
+			}
+			else
+				if (dup2(pipex.fd[1], STD_OUT) == -1)
+					error_free(&pipex);
+			ft_close(pipex.fd[0], pipex.fd[1], pipex.file[0], pipex.file[0]);
+			path = create_path(pipex.path_join, cmdlst.content);
+			execve(path, cmdlst.content, envp);
 			free(path);
-			error_free(path_join, infile, outfile);
+			error_free(&pipex);
 		}
+		close(pipex.fd[1]);
+		//close(pipex.oldfd);
+		pipex.oldfd = pipex.fd[0];
+		cmdlst = *cmdlst.next;
+		count++;
 	}
-	close(fd[1]);
+	/*cmdlst = *cmdlst.next;
 	pid[1] = fork();
 	if (pid[1] == -1)
-		error_free(path_join, infile, outfile);
+		error_free(path_join, pipex.file[0], pipex.file[1]);
 	if (pid[1] == 0)
 	{
-		if (dup2(fd[0], 0) == -1)
+		if (dup2(fd[0], STD_IN) == -1)
 		{
 			close(fd[0]);
-			error_free(path_join, infile, outfile);
+			error_free(path_join, pipex.file[0], pipex.file[1]);
 		}
 		if (dup2(outfile, STD_OUT) == -1)
-			error_free(path_join, infile, outfile);
-		close(infile);
-		close(fd[0]);
-		close(outfile);
-		cmd.cmd2 = ft_split(argv[3], ' ');
-		if (!cmd.cmd2)
-			exit (ERROR);
-		if (access(cmd.cmd2[0], X_OK) == -1)
 		{
-			path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
-			if (!path)
-				free_error(cmd.cmd2, NO_FD, NO_FD);
-			while (path && access(path, X_OK) == -1)
-			{
-				idx++;
-				free(path);
-				path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
-				if (!path)
-					free_path(cmd.cmd2, NO_FD, NO_FD);
-			}
-			if (!path)
-				free_path(cmd.cmd2, NO_FD, NO_FD);
+			close(fd[1]);
+			error_free(path_join, pipex.file[0], pipex.file[1]);
 		}
-		else
-			path = cmd.cmd2[0];
-		if (execve(path, cmd.cmd2, envp) == -1)
-		{
-			free(path);
-			error_free(path_join, infile, outfile);
-		}
+		ft_close(fd[0], fd[1], infile, outfile);
+		path = create_path(path_join, cmdlst.content);
+		execve(path, cmdlst.content, envp);
+		free(path);
+		error_free(path_join, pipex.file[0], pipex.file[1]);
+	}*/
+	ft_close(pipex.fd[0], pipex.fd[1], pipex.file[0], pipex.file[1]);
+	wait_idx = 0;
+	while (wait_idx < pipex.headlst.lst_size)
+	{
+		wait(0);
+		wait_idx++;
 	}
 	if (path)
 		free(path);
-	free_path(path_join);
-	close(infile);
-	close(outfile);
-	close(fd[0]);
-	close(fd[1]);
-	wait(0);
-	wait(0);
+	free_path(pipex.path_join);
+	free(pipex.pid);
+	ft_lstclear(&pipex.headlst.list, free_path);
+	pipex.headlst.list = NULL;
 	return (SUCCESS);
 }

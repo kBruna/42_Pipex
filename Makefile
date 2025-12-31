@@ -14,6 +14,7 @@ CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
 SRCS_FILES	= 	\
+				lst_util.c		\
 				pipex_util.c	\
 				parsing.c		\
 				main.c
@@ -42,12 +43,12 @@ val: $(LIBFT) $(OBJS)
 	@echo "\n$(C_BLUE);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
 mem: $(NAME)
-	$(shell valgrind --suppressions=pipex.supp --track-fds=yes	\
+	valgrind --suppressions=pipex.supp --track-fds=yes	\
 				--leak-check=full		\
 				--trace-children=yes	\
 				--track-origins=yes 	\
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
-				./pipex $(ARGS))
+				./pipex $(ARGS)
 
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)

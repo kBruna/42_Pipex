@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:39:26 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/29 13:41:19 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/30 19:56:47 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,31 @@ char	**arg_parse(char **envp)
 	free_path(path_split);
 	return (path_join);
 }
+
+char	*create_path(char **path_join, char **cmd)
+{
+	int		idx;
+	char	*path;
+
+	idx = 0;
+	if (access(cmd[0], F_OK | X_OK) == -1)
+	{
+		path = ft_strjoin(path_join[idx], cmd[0]);
+		if (!path)
+			error_exit();
+		while (access(path, X_OK) == -1)
+		{
+			idx++;
+			free(path);
+			path = ft_strjoin(path_join[idx], cmd[0]);
+			if (!path)
+				error_exit();
+		}
+		if (!path)
+			error_exit();
+	}
+	else
+		path = cmd[0];
+	return (path);
+}
+

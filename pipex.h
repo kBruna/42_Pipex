@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 15:34:40 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/29 14:42:42 by buehara          ###   ########.fr       */
+/*   Updated: 2025/12/30 21:21:25 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,42 @@ typedef struct	s_cmd
 	char	**cmd2;
 }				t_cmd;
 
+typedef struct	s_head
+{
+	int	lst_size;
+	t_list	*list;
+}				t_head;
+
+typedef struct s_pipex
+{
+	t_head	headlst;
+	char	**path_join;
+	char	*infile;
+	char	*outfile;
+	char	*limiter;
+	int		file_permissions;
+	pid_t	*pid;
+	int		fd[2];
+	int		file[2];
+	int		oldfd;
+}				t_pipex;
+
 // ----------- Parsing.c -------------
 char	**path_parsing(char **envp);
 char	**arg_parse(char **envp);
+char	*create_path(char **path_join, char **cmd);
 void	arg_check(int argc, char **argv);
 
 // ----------- Pipex_utils.c ---------
-void	free_path(char **split);
-void	error_free(char	**str, int fd1, int fd2);
+void	free_path(void *split);
+void	error_exit(void);
+void	error_free(t_pipex *pipex);
+void	pipex_init(int argc, char **argv, t_pipex *pipex);
+void	ft_close(int fd1, int fd2, int infile, int outfile);
+
+// ----------- lst_util.c -----------
+t_head	create_cmd_lst(int argc, char **argv);
 
 // ----------- Main.c ----------------
-void	pipex_init(int argc, char **argv, int *infile, int *outfile);
 
 #endif
