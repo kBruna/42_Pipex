@@ -20,8 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	//char	**path_join;
 	//int		fd[2];
 	//pid_t	pid[2];
-	int		index;
-	int		idx;
+	//int		index;
+	//int		idx;
 	//t_head	headlst;
 	t_list	cmdlst;
 	int		wait_idx;
@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 
 	int	count;
 
-	count = 1;
+	count = 0;
 	pipex.oldfd = -1;
 	pipex.fd[0] = -1;
 	pipex.fd[1] = -1;
@@ -61,45 +61,46 @@ int	main(int argc, char **argv, char **envp)
 		if (count < pipex.headlst.lst_size - 1)
 			if (pipe(pipex.fd) == -1)
 				error_free(&pipex);
-		pipex.pid[0] = fork();
-		if (pipex.pid[0] == -1)
+		pipex.pid[count] = fork();
+		if (pipex.pid[count] == -1)
 			error_free(&pipex);
-		idx = 0;
-		index = 0;
 		if (pipex.pid[count] == 0)	// CHILD PROCCESS
 		{
 			if (pipex.oldfd == -1)
 			{
-				pipex.file[0] = open(pipex.infile, O_RDONLY);
-				if (pipex.file[0] == -1)
-					error_free(&pipex);
-				if (dup2(pipex.file[0], STD_IN) == -1)
+				//pipex.file[0] = open(pipex.infile, O_RDONLY);
+				//if (pipex.file[0] == -1)
+					//error_free(&pipex);
+				if (dup2(pipex.infile, STD_IN) == -1)
 					error_free(&pipex);
 			}
 			else
 				if (dup2(pipex.oldfd, STD_IN) == -1)
 					error_free(&pipex);
-			if (count == pipex.headlst.lst_size - 0)
+			if (count == pipex.headlst.lst_size - 1)
 			{
-				pipex.file[1] = open(pipex.outfile, pipex.file_permissions, 0644);
-				if (pipex.file[1] == -1)
-					error_free(&pipex);
-				if (dup2(pipex.fd[1], pipex.file[1] == -1))
+				//pipex.file[1] = open(pipex.outfile, pipex.file_permissions, 0644);
+				//if (pipex.file[1] == -1)
+					//error_free(&pipex);
+				if (dup2(pipex.outfile, STD_OUT == -1))
 					error_free(&pipex);
 			}
 			else
 				if (dup2(pipex.fd[1], STD_OUT) == -1)
 					error_free(&pipex);
-			ft_close(pipex.fd[0], pipex.fd[1], pipex.file[0], pipex.file[0]);
+			ft_close(pipex.oldfd, pipex.fd[1], pipex.file[0], pipex.file[0]);
 			path = create_path(pipex.path_join, cmdlst.content);
 			execve(path, cmdlst.content, envp);
 			free(path);
 			error_free(&pipex);
 		}
 		close(pipex.fd[1]);
-		//close(pipex.oldfd);
-		pipex.oldfd = pipex.fd[0];
-		cmdlst = *cmdlst.next;
+		if (pipex.oldfd != -1)
+			close(pipex.oldfd);
+		if (count < pipex.headlst.lst_size - 1)
+			pipex.oldfd = pipex.fd[0];
+		if (cmdlst.next)
+			cmdlst = *cmdlst.next;
 		count++;
 	}
 	/*cmdlst = *cmdlst.next;
@@ -133,6 +134,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	if (path)
 		free(path);
+	if (pipex.limiter)
+		free(pipex.limiter);
 	free_path(pipex.path_join);
 	free(pipex.pid);
 	ft_lstclear(&pipex.headlst.list, free_path);

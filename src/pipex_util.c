@@ -38,20 +38,31 @@ void	pipex_init(int argc, char **argv, t_pipex *pipex)
 	}
 	if (!ft_strncmp(argv[1], "here_doc", 9))
 	{
-		pipex->limiter = argv[2]; // ADD \n\0 at the end;
+		pipex->limiter = ft_strjoin(argv[2], "\n");
 		pipex->file_permissions = O_CREAT | O_WRONLY | O_APPEND;
-		pipex->infile = argv[3]; // IF HERE_DOC idx == 2;
 	}
 	else
+	{
 		pipex->file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
-	pipex->outfile = argv[argc - 1];
-	pipex->infile = argv[1]; // IF HERE_DOC idx == 2;
-	/*outfile = open(argv[argc - 1], file_permissions, 0644);
-	if (*outfile == -1)
-		error_free(NULL, NO_FD, NO_FD);
-	*infile = open(argv[1], O_RDONLY);
-	if (*infile == -1)
-		error_free(NULL, *outfile, NO_FD);*/
+		pipex->limiter = NULL;
+	}
+	pipex->outfile = open(argv[argc - 1], pipex->file_permissions, 0644);
+	if (pipex->outfile == -1)
+		error_free(pipex);
+	if (pipex->limiter)
+	{
+		pipex->infile = open(argv[3], O_RDONLY); // IF HERE_DOC idx == 2;
+		if (pipex->infile == -1)
+			error_free(pipex);
+	}
+	else
+	{
+		pipex->infile = open(argv[1], O_RDONLY);
+		if (pipex->infile == -1)
+			error_free(pipex);
+	}
+	//pipex->outfile = argv[argc - 1];
+	//pipex->infile = argv[1]; // IF HERE_DOC idx == 2;
 }
 
 void	error_free(t_pipex	*pipex)

@@ -38,14 +38,14 @@ typedef struct s_pipex
 {
 	t_head	headlst;
 	char	**path_join;
-	char	*infile;
-	char	*outfile;
 	char	*limiter;
 	int		file_permissions;
 	pid_t	*pid;
 	int		fd[2];
 	int		file[2];
 	int		oldfd;
+	int		infile;
+	int		outfile;
 }				t_pipex;
 
 // ----------- Parsing.c -------------

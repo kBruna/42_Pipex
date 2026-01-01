@@ -87,7 +87,7 @@ char	*create_path(char **path_join, char **cmd)
 		path = ft_strjoin(path_join[idx], cmd[0]);
 		if (!path)
 			error_exit();
-		while (access(path, X_OK) == -1)
+		while (access(path, F_OK | X_OK) == -1)
 		{
 			idx++;
 			free(path);
