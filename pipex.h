@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 15:34:40 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/30 21:21:25 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/01 19:13:17 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_pipex
 	int		file_permissions;
 	pid_t	*pid;
 	int		fd[2];
-	int		file[2];
 	int		oldfd;
 	int		infile;
 	int		outfile;
@@ -51,7 +50,7 @@ typedef struct s_pipex
 // ----------- Parsing.c -------------
 char	**path_parsing(char **envp);
 char	**arg_parse(char **envp);
-char	*create_path(char **path_join, char **cmd);
+char	*create_path(char **path_join, char **cmd, t_pipex *pipex);
 void	arg_check(int argc, char **argv);
 
 // ----------- Pipex_utils.c ---------

@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:42:24 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/30 21:37:47 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/01 21:03:24 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,6 @@ void	pipex_init(int argc, char **argv, t_pipex *pipex)
 		pipex->file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
 		pipex->limiter = NULL;
 	}
-	pipex->outfile = open(argv[argc - 1], pipex->file_permissions, 0644);
-	if (pipex->outfile == -1)
-		error_free(pipex);
-	if (pipex->limiter)
-	{
-		pipex->infile = open(argv[3], O_RDONLY); // IF HERE_DOC idx == 2;
-		if (pipex->infile == -1)
-			error_free(pipex);
-	}
-	else
-	{
-		pipex->infile = open(argv[1], O_RDONLY);
-		if (pipex->infile == -1)
-			error_free(pipex);
-	}
-	//pipex->outfile = argv[argc - 1];
-	//pipex->infile = argv[1]; // IF HERE_DOC idx == 2;
 }
 
 void	error_free(t_pipex	*pipex)
@@ -71,9 +54,11 @@ void	error_free(t_pipex	*pipex)
 		free_path(pipex->path_join);
 	if (pipex->pid)
 		free(pipex->pid);
-	ft_close(pipex->fd[0], pipex->fd[1], pipex->file[0], pipex->file[1]);
+	ft_close(pipex->fd[0], pipex->fd[1], pipex->infile, pipex->outfile);
 	if (pipex->oldfd > -1)
 		close(pipex->oldfd);
+	if (pipex->headlst.list)
+		ft_lstclear(&pipex->headlst.list, free_path);
 	error_exit();
 }
 

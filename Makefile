@@ -45,6 +45,7 @@ val: $(LIBFT) $(OBJS)
 mem: $(NAME)
 	valgrind --suppressions=pipex.supp --track-fds=yes	\
 				--leak-check=full		\
+				--show-leak-kinds=all	\
 				--trace-children=yes	\
 				--track-origins=yes 	\
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \

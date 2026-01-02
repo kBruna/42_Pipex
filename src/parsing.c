@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:39:26 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/30 19:56:47 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/01 19:12:11 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,30 +76,26 @@ char	**arg_parse(char **envp)
 	return (path_join);
 }
 
-char	*create_path(char **path_join, char **cmd)
+char	*create_path(char **path_join, char **cmd, t_pipex *pipex)
 {
 	int		idx;
 	char	*path;
 
 	idx = 0;
-	if (access(cmd[0], F_OK | X_OK) == -1)
+	if (access(cmd[0], F_OK | X_OK) == 0)
+		return (cmd[0]);
+	while (path_join[idx] != NULL)
 	{
 		path = ft_strjoin(path_join[idx], cmd[0]);
 		if (!path)
-			error_exit();
-		while (access(path, F_OK | X_OK) == -1)
-		{
-			idx++;
-			free(path);
-			path = ft_strjoin(path_join[idx], cmd[0]);
-			if (!path)
-				error_exit();
-		}
-		if (!path)
-			error_exit();
+			error_free(pipex);
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
+		idx++;
+		free(path);
 	}
-	else
-		path = cmd[0];
-	return (path);
+	if (!path)
+		error_free(pipex);
+	return (NULL);
 }
 
