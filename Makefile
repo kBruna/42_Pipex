@@ -22,9 +22,14 @@ SRCS_FILES	= 	\
 				main.c			\
 				here_doc_bonus.c
 
+SRC_BONUS	= 	here_doc_bonus.c\
+
+
 SRCS		= $(addprefix src/, $(SRCS_FILES))
+SRCS_BONUS	= $(addprefix src/, $(SRCS_BONUS))
 OBJS_DIR 	= obj
 OBJS		= $(SRCS:$(src/%.c=$(OBJS_DIR)/%.o)
+OBJS_BONUS	= $(SRCS_BONUS:$(src/%.c=$(OBJS_DIR)/%.o)
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -54,6 +59,9 @@ mem: $(NAME)
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
 				./pipex $(ARGS)
 
+bonus: $(LIBFT) $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o $@
+
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -78,4 +86,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean fclean re val mem
+.PHONY: all clean fclean re val mem bonus
