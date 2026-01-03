@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:39:26 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/01 19:12:11 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/02 21:27:43 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,11 @@ char	*create_path(char **path_join, char **cmd, t_pipex *pipex)
 	return (NULL);
 }
 
+void	init_fd(t_pipex *pipex)
+{
+	pipex->oldfd = -1;
+	pipex->fd[0] = -1;
+	pipex->fd[1] = -1;
+	pipex->infile = -1;
+	pipex->outfile = -1;
+}

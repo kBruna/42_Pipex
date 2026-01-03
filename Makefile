@@ -14,10 +14,13 @@ CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
 SRCS_FILES	= 	\
+				pipex.c			\
+				child.c			\
 				lst_util.c		\
 				pipex_util.c	\
 				parsing.c		\
-				main.c
+				main.c			\
+				here_doc_bonus.c
 
 SRCS		= $(addprefix src/, $(SRCS_FILES))
 OBJS_DIR 	= obj

@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:42:24 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/01 21:03:24 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/02 20:09:42 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,36 @@ void	pipex_init(int argc, char **argv, t_pipex *pipex)
 		ft_putstr_fd("Error: Insufficient parameters\n", 2);
 		exit (ERROR);
 	}
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0 && argc < 6)
+	{
+		ft_putstr_fd("Error: Insufficient parameters for here_doc\n", 2);
+		exit (ERROR);
+	}
 	if (!ft_strncmp(argv[1], "here_doc", 9))
 	{
 		pipex->limiter = ft_strjoin(argv[2], "\n");
-		pipex->file_permissions = O_CREAT | O_WRONLY | O_APPEND;
+		pipex->permission = O_CREAT | O_WRONLY | O_APPEND;
 	}
 	else
 	{
-		pipex->file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
+		pipex->permission = O_CREAT | O_WRONLY | O_TRUNC;
 		pipex->limiter = NULL;
+		pipex->arg_in = argv[1];
 	}
+	pipex->arg_out = argv[argc - 1];
 }
 
 void	error_free(t_pipex	*pipex)
 {
 	if (pipex->path_join)
 		free_path(pipex->path_join);
-	if (pipex->pid)
-		free(pipex->pid);
 	ft_close(pipex->fd[0], pipex->fd[1], pipex->infile, pipex->outfile);
 	if (pipex->oldfd > -1)
 		close(pipex->oldfd);
 	if (pipex->headlst.list)
 		ft_lstclear(&pipex->headlst.list, free_path);
+	if (pipex->limiter != NULL)
+		free(pipex->limiter);
 	error_exit();
 }
 
