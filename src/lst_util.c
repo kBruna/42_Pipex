@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 19:53:38 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 14:05:55 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 15:11:03 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ t_head	create_cmd_lst(int argc, char **argv, t_pipex pipex)
 	}
 	return (head_cmd);
 }
-

@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:39:26 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 21:27:43 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 15:12:08 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**arg_parse(char **envp)
 	int		idx;
 	char	**path_split;
 	char	**path_join;
-	
+
 	path_split = path_parsing(envp);
 	idx = 0;
 	path_join = NULL;

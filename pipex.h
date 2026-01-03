@@ -6,12 +6,12 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 15:34:40 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 21:59:27 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 15:10:26 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		PIPEX_H
-# define	PIPEX_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # include "./src/42_Libft/includes/libft.h"
 # include "./src/42_Libft/includes/get_next_line.h"
@@ -22,9 +22,9 @@
 # include <stdio.h>
 # include <sys/wait.h>
 
-typedef struct	s_head
+typedef struct s_head
 {
-	int	lst_size;
+	int		lst_size;
 	t_list	*list;
 }				t_head;
 
@@ -73,7 +73,5 @@ void	child_process(t_pipex *pipex, int count, char **envp, t_list cmdlst);
 void	ft_wait(t_pipex pipex);
 void	close_and_free(t_pipex *pipex, t_list	*cmdlst, int count);
 void	ft_pipex(t_pipex *pipex, char **envp);
-
-// ----------- Main.c ----------------
 
 #endif

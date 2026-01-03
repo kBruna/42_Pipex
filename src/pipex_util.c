@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:42:24 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 20:09:42 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 15:12:24 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_path(void *split)
 	char	**temp;
 
 	if (!split)
-		return ;	
+		return ;
 	index = 0;
 	temp = (char **)split;
 	while (temp[index] != NULL)

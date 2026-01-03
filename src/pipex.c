@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 21:24:46 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 21:30:31 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 15:11:21 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_pipex(t_pipex *pipex, char **envp)
 {
-	int	count;
+	int		count;
 	t_list	cmdlst;
 
 	count = 0;
