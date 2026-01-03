@@ -6,16 +6,26 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 22:15:09 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 21:30:36 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 20:09:57 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
+void	ft_exit(int status)
+{
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		exit(128 + WTERMSIG(status));
+	exit (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*path;
 	t_pipex	pipex;
+	int		status;
 
 	path = NULL;
 	pipex = (t_pipex){0};
@@ -25,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	pipex.headlst = create_cmd_lst(argc, argv, pipex);
 	ft_pipex(&pipex, envp);
 	ft_close(pipex.fd[0], pipex.fd[1], pipex.infile, pipex.outfile);
-	ft_wait(pipex);
+	status = ft_wait(pipex);
 	if (path)
 		free(path);
 	if (pipex.limiter)
@@ -33,5 +43,6 @@ int	main(int argc, char **argv, char **envp)
 	free_path(pipex.path_join);
 	ft_lstclear(&pipex.headlst.list, free_path);
 	pipex.headlst.list = NULL;
-	return (SUCCESS);
+	ft_exit(status);
+	return (0);
 }

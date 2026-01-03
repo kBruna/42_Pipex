@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 21:29:27 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/02 21:33:45 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 20:10:25 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execve_run(t_pipex *pipex, t_list cmdlst, char **envp)
 		if (pipex->limiter)
 			free(pipex->limiter);
 		perror("Command Not Found");
-		exit(ERROR);
+		exit(127);
 	}
 	execve(path, cmdlst.content, envp);
 	error_free(pipex);

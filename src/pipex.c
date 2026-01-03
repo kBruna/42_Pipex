@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 21:24:46 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/03 15:11:21 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 20:04:32 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_pipex(t_pipex *pipex, char **envp)
 
 	count = 0;
 	cmdlst = *pipex->headlst.list;
+	pipex->pid = ft_calloc(pipex->headlst.lst_size, sizeof(pid_t));
 	init_fd(pipex);
 	if (pipex->limiter != NULL)
 		here_doc(pipex);
@@ -27,10 +28,10 @@ void	ft_pipex(t_pipex *pipex, char **envp)
 		if (count < pipex->headlst.lst_size - 1)
 			if (pipe(pipex->fd) == -1)
 				error_free(pipex);
-		pipex->pid = fork();
-		if (pipex->pid == -1)
+		pipex->pid[count] = fork();
+		if (pipex->pid[count] == -1)
 			error_free(pipex);
-		if (pipex->pid == 0)
+		if (pipex->pid[count] == 0)
 			child_process(pipex, count, envp, cmdlst);
 		close_and_free(pipex, &cmdlst, count);
 		count++;
@@ -52,14 +53,16 @@ void	close_and_free(t_pipex *pipex, t_list	*cmdlst, int count)
 	}
 }
 
-void	ft_wait(t_pipex pipex)
+int	ft_wait(t_pipex pipex)
 {
 	int	idx;
+	int	status;
 
 	idx = 0;
 	while (idx < pipex.headlst.lst_size)
 	{
-		wait(0);
+		waitpid(pipex.pid[idx], &status, 0);
 		idx++;
 	}
+	return (status);
 }

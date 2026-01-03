@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 15:34:40 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/03 15:10:26 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 19:57:20 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_pipex
 	char	*limiter;
 	char	*arg_out;
 	char	*arg_in;
-	pid_t	pid;
+	pid_t	*pid;
 	int		fd[2];
 	int		permission;
 	int		oldfd;
@@ -70,7 +70,7 @@ void	execve_run(t_pipex *pipex, t_list cmdlst, char **envp);
 void	child_process(t_pipex *pipex, int count, char **envp, t_list cmdlst);
 
 // ----------- Pipex.c ---------------
-void	ft_wait(t_pipex pipex);
+int		ft_wait(t_pipex pipex);
 void	close_and_free(t_pipex *pipex, t_list	*cmdlst, int count);
 void	ft_pipex(t_pipex *pipex, char **envp);
 

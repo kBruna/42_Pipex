@@ -1,5 +1,6 @@
 #---- Colors -----
 
+C_BOLD	= \033[1m
 C_BLUE	= \033[0;34
 C_GREEN	= \033[0;32
 C_RED	= \033[0;31
@@ -22,14 +23,20 @@ SRCS_FILES	= 	\
 				main.c			\
 				here_doc_bonus.c
 
-SRC_BONUS	= 	here_doc_bonus.c\
+SRCS_BONUS	= 	here_doc_bonus.c	\
+				pipex_bonus.c		\
+				child.c				\
+				lst_util_bonus.c	\
+				pipex_util_bouns.c	\
+				parsing_bonus.c		\
+				main_bonus.c
 
 
 SRCS		= $(addprefix src/, $(SRCS_FILES))
-SRCS_BONUS	= $(addprefix src/, $(SRCS_BONUS))
+FILES_BONUS	= $(addprefix src/, $(SRCS_BONUS))
 OBJS_DIR 	= obj
-OBJS		= $(SRCS:$(src/%.c=$(OBJS_DIR)/%.o)
-OBJS_BONUS	= $(SRCS_BONUS:$(src/%.c=$(OBJS_DIR)/%.o)
+OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
+OBJS_BONUS	= $(FILES_BONUS:$(src/%.c=$(OBJS_DIR)/%.o)
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -65,7 +72,7 @@ bonus: $(LIBFT) $(OBJS_BONUS)
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(C_BLUE);m\t-> $@ compiled\n$(C_END)"
+	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
 
 $(LIBFT) :
 	@$(MAKE) -sC $(DIR_LIBFT) all

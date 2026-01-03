@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:42:24 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/03 15:12:24 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/03 19:32:32 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	error_free(t_pipex	*pipex)
 		ft_lstclear(&pipex->headlst.list, free_path);
 	if (pipex->limiter != NULL)
 		free(pipex->limiter);
+	free(pipex->pid);
 	error_exit();
 }
 
