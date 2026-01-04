@@ -6,7 +6,7 @@
 /*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 21:24:46 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/03 20:04:32 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/04 12:27:46 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ int	ft_wait(t_pipex pipex)
 		waitpid(pipex.pid[idx], &status, 0);
 		idx++;
 	}
+	free(pipex.pid);
 	return (status);
 }
