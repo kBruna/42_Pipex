@@ -1,5 +1,6 @@
 #---- Colors -----
 
+C_BOLD	= \033[1m
 C_BLUE	= \033[0;34
 C_GREEN	= \033[0;32
 C_RED	= \033[0;31
@@ -14,13 +15,28 @@ CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
 SRCS_FILES	= 	\
+				pipex.c			\
+				child.c			\
+				lst_util.c		\
 				pipex_util.c	\
 				parsing.c		\
-				main.c
+				main.c			\
+				here_doc_bonus.c
+
+SRCS_BONUS	= 	here_doc_bonus.c	\
+				pipex_bonus.c		\
+				child.c				\
+				lst_util_bonus.c	\
+				pipex_util_bouns.c	\
+				parsing_bonus.c		\
+				main_bonus.c
+
 
 SRCS		= $(addprefix src/, $(SRCS_FILES))
+FILES_BONUS	= $(addprefix src/, $(SRCS_BONUS))
 OBJS_DIR 	= obj
-OBJS		= $(SRCS:$(src/%.c=$(OBJS_DIR)/%.o)
+OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
+OBJS_BONUS	= $(FILES_BONUS:$(src/%.c=$(OBJS_DIR)/%.o)
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -42,17 +58,21 @@ val: $(LIBFT) $(OBJS)
 	@echo "\n$(C_BLUE);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
 mem: $(NAME)
-	$(shell valgrind --suppressions=pipex.supp --track-fds=yes	\
+	valgrind --suppressions=pipex.supp --track-fds=yes	\
 				--leak-check=full		\
+				--show-leak-kinds=all	\
 				--trace-children=yes	\
 				--track-origins=yes 	\
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
-				./pipex $(ARGS))
+				./pipex $(ARGS)
+
+bonus: $(LIBFT) $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o $@
 
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(C_BLUE);m\t-> $@ compiled\n$(C_END)"
+	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
 
 $(LIBFT) :
 	@$(MAKE) -sC $(DIR_LIBFT) all
@@ -73,4 +93,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean fclean re val mem
+.PHONY: all clean fclean re val mem bonus
