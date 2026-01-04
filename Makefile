@@ -15,19 +15,15 @@ CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
 SRCS_FILES	= 	\
-				pipex.c			\
-				child.c			\
-				lst_util.c		\
 				pipex_util.c	\
 				parsing.c		\
 				main.c			\
-				here_doc_bonus.c
 
 SRCS_BONUS	= 	here_doc_bonus.c	\
 				pipex_bonus.c		\
-				child.c				\
+				child_bonus.c		\
 				lst_util_bonus.c	\
-				pipex_util_bouns.c	\
+				pipex_util_bonus.c	\
 				parsing_bonus.c		\
 				main_bonus.c
 
@@ -36,7 +32,7 @@ SRCS		= $(addprefix src/, $(SRCS_FILES))
 FILES_BONUS	= $(addprefix src/, $(SRCS_BONUS))
 OBJS_DIR 	= obj
 OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
-OBJS_BONUS	= $(FILES_BONUS:$(src/%.c=$(OBJS_DIR)/%.o)
+OBJS_BONUS	= $(addprefix src/, $(SRCS_BONUS))
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -67,7 +63,7 @@ mem: $(NAME)
 				./pipex $(ARGS)
 
 bonus: $(LIBFT) $(OBJS_BONUS)
-	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o $@
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o pipex_bonus
 
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)

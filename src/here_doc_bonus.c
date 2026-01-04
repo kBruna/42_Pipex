@@ -6,11 +6,11 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 14:29:48 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 14:29:50 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/04 15:29:34 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../pipex_bonus.h"
 
 void	here_doc(t_pipex *pipex)
 {

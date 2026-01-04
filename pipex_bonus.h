@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/04 14:29:18 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 14:29:22 by buehara          ###   ########.fr       */
+/*   Created: 2026/01/04 15:28:08 by buehara           #+#    #+#             */
+/*   Updated: 2026/01/04 15:28:50 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "./src/42_Libft/includes/libft.h"
 # include "./src/42_Libft/includes/get_next_line.h"

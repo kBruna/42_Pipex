@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buehara <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/24 22:15:09 by buehara           #+#    #+#             */
-/*   Updated: 2025/12/29 18:16:22 by buehara          ###   ########.fr       */
+/*   Created: 2026/01/04 15:26:22 by buehara           #+#    #+#             */
+/*   Updated: 2026/01/04 15:26:24 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,9 @@ int	main(int argc, char **argv, char **envp)
 	int		idx;
 
 	path = NULL;
-	arg_check(argc, argv); // TEST OK insofar
-	pipex_init(argc, argv, &infile, &outfile); // TEST OK insofar
-	path_join = arg_parse(envp); // TEST OK insofar
-
-//	idx = 0;							// Test PRINT LOOP
-//	while (path_join[idx] != NULL)
-//		ft_printf("->\t%s\n", path_join[idx++]);
-
-	path = NULL;
+	arg_check(argc, argv);
+	pipex_init(argc, argv, &infile, &outfile);
+	path_join = arg_parse(envp);
 	if (pipe(fd) == -1)
 		error_free(path_join, infile, outfile);
 	pid[0] = fork();
@@ -128,17 +122,17 @@ int	main(int argc, char **argv, char **envp)
 		{
 			path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
 			if (!path)
-				free_error(cmd.cmd2, NO_FD, NO_FD);
+				error_free(cmd.cmd2, NO_FD, NO_FD);
 			while (path && access(path, X_OK) == -1)
 			{
 				idx++;
 				free(path);
 				path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
 				if (!path)
-					free_path(cmd.cmd2, NO_FD, NO_FD);
+					free_path(cmd.cmd2);
 			}
 			if (!path)
-				free_path(cmd.cmd2, NO_FD, NO_FD);
+				free_path(cmd.cmd2);
 		}
 		else
 			path = cmd.cmd2[0];

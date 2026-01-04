@@ -1,6 +1,8 @@
 *.swp
 *.o
 pipex
+pipex_bonus
 a.out
-outfile
+outfil*
 libft.a
+42_pipex*

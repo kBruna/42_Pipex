@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_util.c                                         :+:      :+:    :+:   */
+/*   lst_util_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/04 14:30:05 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 14:30:08 by buehara          ###   ########.fr       */
+/*   Created: 2026/01/04 15:27:30 by buehara           #+#    #+#             */
+/*   Updated: 2026/01/04 15:27:37 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../pipex_bonus.h"
 
 t_head	create_cmd_lst(int argc, char **argv, t_pipex pipex)
 {
