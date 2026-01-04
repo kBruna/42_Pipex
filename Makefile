@@ -15,6 +15,7 @@ CFLAGS	= -Wall -Wextra -Werror -g3
 C_TEST	= -g3
 
 SRCS_FILES	= 	\
+				pipex.c			\
 				pipex_util.c	\
 				parsing.c		\
 				main.c			\
