@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:25:04 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/06 20:17:44 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 15:20:01 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	ft_count_words(const char *s, char c)
 
 	ctrl = 0;
 	count = 0;
+	if (!s || !c)
+		return (0);
 	if (s[ctrl] == c)
 		while (s[ctrl] && s[ctrl] == c)
 			ctrl++;
@@ -81,6 +83,8 @@ static char	**ft_alloc(char const *s, char **ptr, char c)
 	ctrl = 0;
 	end = 0;
 	start = 0;
+	if (!s || !c)
+		return (NULL);
 	while (s[end] != '\0')
 	{
 		ft_word_runner(s, c, &start, &end);
@@ -105,7 +109,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	ptr = malloc((ft_count_words(s, c) + 1) * sizeof(char *));
+	ptr = ft_calloc((ft_count_words(s, c) + 1), sizeof(char *));
 	if (!ptr)
 		return (NULL);
 	ptr = ft_alloc(s, ptr, c);
