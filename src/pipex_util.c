@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:32:36 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 20:44:48 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 18:49:02 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_path(char **split)
 	free(split);
 }
 
-void	error_free(char	**str, int fd1, int fd2)
+void	error_free(char	**str, int fd1, int fd2, char *err)
 {
 	if (str)
 		free_path(str);
@@ -35,7 +35,7 @@ void	error_free(char	**str, int fd1, int fd2)
 		close(fd1);
 	if (fd2 != NO_FD)
 		close(fd2);
-	perror("Error");
+	perror(err);
 	exit(ERROR);
 }
 
@@ -51,16 +51,9 @@ void	ft_close(int fd1, int fd2, int infile, int outfile)
 		close(outfile);
 }
 
-int	ft_wait(pid_t pid[2])
+void	error_file(t_pipex pipex)
 {
-	int	idx;
-	int	status;
-
-	idx = 0;
-	while (idx < 2)
-	{
-		waitpid(pid[idx], &status, 0);
-		idx++;
-	}
-	return (status);
+	free_path(pipex.path_join);
+	ft_close(pipex.fd[0], pipex.fd[1], pipex.outfile, NO_FD);
+	exit(ERROR);
 }

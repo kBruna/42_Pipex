@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:30:32 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 21:19:47 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 18:51:04 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 char	**path_parsing(char **envp)
 {
 	int		index;
-	char	*temp;
 	char	*env_path;
 	char	**path_split;
 
 	index = 0;
 	env_path = NULL;
+	if (!envp)
+		return (NULL);
 	while (envp[index] != NULL)
 	{
 		if (!ft_strncmp(envp[index], "PATH=", 5))
@@ -30,10 +31,11 @@ char	**path_parsing(char **envp)
 		}
 		index++;
 	}
-	path_split = ft_split(env_path, ':');
-	temp = path_split[0];
-	path_split[0] = ft_strdup(ft_strchr(temp, '/'));
-	free(temp);
+	if (env_path == NULL)
+		return (NULL);
+	path_split = ft_split(&env_path[5], ':');
+	if (!path_split)
+		return (NULL);
 	return (path_split);
 }
 
@@ -62,11 +64,11 @@ char	**arg_parse(char **envp)
 	path_split = path_parsing(envp);
 	idx = 0;
 	path_join = NULL;
-	while (path_split[idx] != NULL)
+	while (path_split && path_split[idx] != NULL)
 		idx++;
 	path_join = ft_calloc(++idx, sizeof(char *));
 	idx = 0;
-	while (path_split[idx] != NULL)
+	while (path_split && path_split[idx] != NULL)
 	{
 		path_join[idx] = ft_strjoin(path_split[idx], "/");
 		idx++;
@@ -76,22 +78,12 @@ char	**arg_parse(char **envp)
 	return (path_join);
 }
 
-void	pipex_init(int argc, char **argv, int *infile, int *outfile)
+char	*check_path(char **cmd)
 {
-	int	file_permissions;
-
-	if (argc < 5)
-	{
-		ft_putstr_fd("Error: Insufficient parameters\n", 2);
-		exit (ERROR);
-	}
-	file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
-	*outfile = open(argv[argc - 1], file_permissions, 0644);
-	if (*outfile == -1)
-		perror("Invalid Outfile");
-	*infile = open(argv[1], O_RDONLY);
-	if (*infile == -1)
-		perror("Invalid Infile");
+	if (access(cmd[0], F_OK | X_OK) == -0)
+		return (cmd[0]);
+	else
+		return (NULL);
 }
 
 char	*find_path(char **path_join, char **cmd)
@@ -99,24 +91,26 @@ char	*find_path(char **path_join, char **cmd)
 	char	*path;
 	int		idx;
 
-	path = NULL;
 	idx = 0;
-	if (access(cmd[0], F_OK | X_OK) == -0)
-		return (cmd[0]);
-	path = ft_strjoin(path_join[idx], cmd[0]);
-	if (!path)
-		error_free(cmd, NO_FD, NO_FD);
-	while (path && access(path, X_OK) == -1)
+	if (ft_strchr(cmd[0], '/'))
+		return (check_path(cmd));
+	if (!path_join || !path_join[0])
 	{
-		idx++;
-		free(path);
+		ft_putstr_fd("Error: Path not set\n", STD_ERR);
+		free_path(path_join);
+		exit(127);
+	}
+	while (path_join[idx] != NULL)
+	{
 		path = ft_strjoin(path_join[idx], cmd[0]);
 		if (!path)
-		{
-			free_path(path_join);
-			free_path(cmd);
-			exit(127);
-		}
+			error_path(path_join, cmd, ERROR, "Malloc");
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
+		idx++;
+		free(path);
 	}
-	return (path);
+	if (!path)
+		error_path(path_join, cmd, 127, "Command not found");
+	return (NULL);
 }
