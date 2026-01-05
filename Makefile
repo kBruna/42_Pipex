@@ -33,11 +33,12 @@ SRCS		= $(addprefix src/, $(SRCS_FILES))
 FILES_BONUS	= $(addprefix src/, $(SRCS_BONUS))
 OBJS_DIR 	= obj
 OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
-OBJS_BONUS	= $(addprefix src/, $(SRCS_BONUS))
+OBJS_BONUS	= $(addprefix $(OBJS_DIR)/, $(SRCS_BONUS:.c=.o))
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
 
+EXEC ?=
 ARGS ?= 
 
 # ---- Recipes -----
@@ -61,7 +62,7 @@ mem: $(NAME)
 				--trace-children=yes	\
 				--track-origins=yes 	\
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
-				./pipex $(ARGS)
+				$(EXEC) $(ARGS)
 
 bonus: $(LIBFT) $(OBJS_BONUS)
 	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o pipex_bonus

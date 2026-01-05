@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:32:10 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 15:32:20 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/04 19:39:27 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_pipex(t_pipex *pipex, char **envp)
 	}
 }
 
-void	close_and_free(t_pipex *pipex, t_list	*cmdlst, int count)
+void	close_and_free(t_pipex *pipex, t_list *cmdlst, int count)
 {
 	close(pipex->fd[1]);
 	if (count > 0 || pipex->limiter != NULL)

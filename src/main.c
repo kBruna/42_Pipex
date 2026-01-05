@@ -6,150 +6,37 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:26:22 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 15:26:24 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/04 20:46:47 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	pipex_init(int argc, char **argv, int *infile, int *outfile)
+void	ft_exit(int status)
 {
-	int	file_permissions;
-
-	if (argc < 5)
-	{
-		ft_putstr_fd("Error: Insufficient parameters\n", 2);
-		exit (ERROR);
-	}
-	if (!ft_strncmp(argv[1], "here_doc", 9))
-		file_permissions = O_CREAT | O_WRONLY | O_APPEND;
-	else
-		file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
-	*outfile = open(argv[argc - 1], file_permissions, 0644);
-	if (*outfile == -1)
-		error_free(NULL, NO_FD, NO_FD);
-	*infile = open(argv[1], O_RDONLY);
-	if (*infile == -1)
-		error_free(NULL, *outfile, NO_FD);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		exit(128 + WTERMSIG(status));
+	exit (1);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*path;
-	int		infile;
-	int		outfile;
-	char	**path_join;
-	t_cmd	cmd;
-	int		fd[2];
-	pid_t	pid[2];
-	int		index;
-	int		idx;
+	t_pipex	pipex;
+	int		status;
 
-	path = NULL;
+	pipex = (t_pipex){0};
 	arg_check(argc, argv);
-	pipex_init(argc, argv, &infile, &outfile);
-	path_join = arg_parse(envp);
-	if (pipe(fd) == -1)
-		error_free(path_join, infile, outfile);
-	pid[0] = fork();
-	if (pid[0] == -1)
-		error_free(path_join, infile, outfile);
-	idx = 0;
-	index = 0;
-	if (pid[0] == 0)
-	{
-		if (dup2(infile, 0) == -1)
-		{
-			close(fd[1]);
-			error_free(path_join, infile, outfile);
-		}
-		if (dup2(fd[1], 1) == -1)
-		{
-			close(fd[1]);
-			error_free(path_join, infile, outfile);
-		}
-		close(fd[0]);
-		close(outfile);
-		close(infile);
-		close(fd[1]);
-		cmd.cmd1 = ft_split(argv[2], ' ');
-		if (!cmd.cmd1)
-			exit (ERROR);
-		if (access(cmd.cmd1[0], F_OK | X_OK) == -1)
-		{
-			path = ft_strjoin(path_join[idx], cmd.cmd1[0]);
-			if (!path)
-				error_free(cmd.cmd1, NO_FD, NO_FD);
-			while (path && access(path, X_OK) == -1)
-			{
-				idx++;
-				free(path);
-				path = ft_strjoin(path_join[idx], cmd.cmd1[0]);
-				if (!path)
-					exit (ERROR);
-			}
-			if (!path)
-				exit (ERROR);
-		}
-		else
-			path = cmd.cmd1[0];
-		if (execve(path, cmd.cmd1, envp) == -1)
-		{
-			free(path);
-			error_free(path_join, infile, outfile);
-		}
-	}
-	close(fd[1]);
-	pid[1] = fork();
-	if (pid[1] == -1)
-		error_free(path_join, infile, outfile);
-	if (pid[1] == 0)
-	{
-		if (dup2(fd[0], 0) == -1)
-		{
-			close(fd[0]);
-			error_free(path_join, infile, outfile);
-		}
-		if (dup2(outfile, STD_OUT) == -1)
-			error_free(path_join, infile, outfile);
-		close(infile);
-		close(fd[0]);
-		close(outfile);
-		cmd.cmd2 = ft_split(argv[3], ' ');
-		if (!cmd.cmd2)
-			exit (ERROR);
-		if (access(cmd.cmd2[0], X_OK) == -1)
-		{
-			path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
-			if (!path)
-				error_free(cmd.cmd2, NO_FD, NO_FD);
-			while (path && access(path, X_OK) == -1)
-			{
-				idx++;
-				free(path);
-				path = ft_strjoin(path_join[idx], cmd.cmd2[0]);
-				if (!path)
-					free_path(cmd.cmd2);
-			}
-			if (!path)
-				free_path(cmd.cmd2);
-		}
-		else
-			path = cmd.cmd2[0];
-		if (execve(path, cmd.cmd2, envp) == -1)
-		{
-			free(path);
-			error_free(path_join, infile, outfile);
-		}
-	}
-	if (path)
-		free(path);
-	free_path(path_join);
-	close(infile);
-	close(outfile);
-	close(fd[0]);
-	close(fd[1]);
-	wait(0);
-	wait(0);
+	pipex_init(argc, argv, &pipex.infile, &pipex.outfile);
+	pipex.path_join = arg_parse(envp);
+	if (pipe(pipex.fd) == -1)
+		error_free(pipex.path_join, pipex.infile, pipex.outfile);
+	first_child(pipex, envp, argv);
+	second_child(pipex, envp, argv);
+	free_path(pipex.path_join);
+	ft_close(pipex.fd[0], pipex.fd[1], pipex.infile, pipex.outfile);
+	status = ft_wait(pipex.pid);
+	ft_exit(status);
 	return (SUCCESS);
 }
