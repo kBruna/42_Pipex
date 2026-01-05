@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:26:39 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 20:56:08 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 18:48:58 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ char	*find_path(char **path_join, char **cmd);
 
 // ----------- Pipex_utils.c ---------
 void	free_path(char **split);
-void	error_free(char	**str, int fd1, int fd2);
+void	error_free(char	**str, int fd1, int fd2, char *err);
 void	ft_close(int fd1, int fd2, int infile, int outfile);
-int		ft_wait(pid_t pid[2]);
+void	error_path(char **path_join, char **cmd, int err, char *msg_err);
+void	error_file(t_pipex pipex);
 
 // ----------- Pipex.c ---------------
 void	pipe_dup(int fd, int infile, int outfile, char **path_join);
 void	first_child(t_pipex pipex, char **envp, char **argv);
 void	second_child(t_pipex pipex, char **envp, char **argv);
+void	error_path(char **path_join, char **cmd, int err, char *msg_err);
 
+int		ft_wait(pid_t pid[2]);
 #endif
