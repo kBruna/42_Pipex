@@ -9,10 +9,11 @@ C_END	= \033[0m
 
 # ---- File Vars -----
 
-NAME	= pipex
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g3
-C_TEST	= -g3
+NAME		= pipex
+NAME_BONUS	= pipex_bonus
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -g3
+C_TEST		= -g3
 
 SRCS_FILES	= 	\
 				pipex.c			\
@@ -29,11 +30,12 @@ SRCS_BONUS	= 	here_doc_bonus.c	\
 				main_bonus.c
 
 
-SRCS		= $(addprefix src/, $(SRCS_FILES))
-FILES_BONUS	= $(addprefix src/, $(SRCS_BONUS))
-OBJS_DIR 	= obj
-OBJS		= $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
-OBJS_BONUS	= $(addprefix $(OBJS_DIR)/, $(SRCS_BONUS:.c=.o))
+SRCS			= $(addprefix src/, $(SRCS_FILES))
+FILES_BONUS		= $(addprefix src/, $(SRCS_BONUS))
+OBJS_DIR 		= obj
+OBJS_BONUS_DIR	= obj_bonus
+OBJS			= $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
+OBJS_BONUS		= $(addprefix $(OBJS_BONUS_DIR)/, $(SRCS_BONUS:.c=.o))
 
 DIR_LIBFT	= src/42_Libft
 LIBFT		= $(DIR_LIBFT)/libft.a
@@ -42,6 +44,7 @@ EXEC ?=
 ARGS ?= 
 
 # ---- Recipes -----
+.PHONY: all bonus clean fclean re val mem
 
 all: $(NAME)
 
@@ -64,16 +67,25 @@ mem: $(NAME)
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
 				$(EXEC) $(ARGS)
 
-bonus: $(LIBFT) $(OBJS_BONUS)
-	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o pipex_bonus
+bonus: $(NAME_BONUS)
+	
+$(NAME_BONUS): $(LIBFT) $(OBJS_BONUS)
+	@echo "\n$(C_GREEN);1m\t-> Compiling files...$(C_END)\n"
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o $@
+	@echo "\n$(C_GREEN);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
 $(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
 
+$(OBJS_BONUS_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJS_BONUS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
+
 $(LIBFT) :
-	@$(MAKE) -sC $(DIR_LIBFT) all
+	@$(MAKE) -sC $(DIR_LIBFT) all --no-print-directory
 	@echo "\n$(C_BLUE)m\t-> $@ compiled$(C_END)\n"
 
 
@@ -82,13 +94,13 @@ $(LIBFT) :
 clean:
 	@$(MAKE) -sC $(DIR_LIBFT) $@
 	@rm -fr $(OBJS_DIR)
+	@rm -fr $(OBJS_BONUS_DIR)
 	@echo "\n$(C_RED)m\t-> OBJs Deleted$(C_END)"
 
 fclean : clean
 	@rm -f $(NAME)
+	@rm -f $(NAME_BONUS)
 	@$(MAKE) -sC $(DIR_LIBFT) $@
 	@echo "\n$(C_RED)m\t-> Files Deleted$(C_END)"
 
 re : fclean all
-
-.PHONY: all clean fclean re val mem bonus
