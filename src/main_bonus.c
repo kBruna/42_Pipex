@@ -6,20 +6,11 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:29:58 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 15:30:05 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 18:15:13 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex_bonus.h"
-
-void	ft_exit(int status)
-{
-	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		exit(128 + WTERMSIG(status));
-	exit (1);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -43,6 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	free_path(pipex.path_join);
 	ft_lstclear(&pipex.headlst.list, free_path);
 	pipex.headlst.list = NULL;
-	ft_exit(status);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
 	return (0);
 }

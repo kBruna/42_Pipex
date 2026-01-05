@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:27:02 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 15:29:20 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 12:02:20 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,9 @@ void	child_process(t_pipex *pipex, int count, char **envp, t_list cmdlst)
 	define_std_output(pipex, count);
 	ft_close(pipex->oldfd, pipex->fd[1], pipex->fd[0], NO_FD);
 	execve_run(pipex, cmdlst, envp);
+	free_path(pipex->path_join);
+	free(pipex->pid);
+	ft_lstclear(&pipex->headlst.list, free_path);
+	perror("Permission Denied");
+	exit(126);
 }

@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:30:55 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/04 15:31:04 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/05 13:03:19 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,13 @@ char	*create_path(char **path_join, char **cmd, t_pipex *pipex)
 	char	*path;
 
 	idx = 0;
-	if (access(cmd[0], F_OK | X_OK) == 0)
-		return (cmd[0]);
+	if (ft_strchr(cmd[0], '/'))
+	{
+		if (access(cmd[0], F_OK) == 0 || access(cmd[0], X_OK) == 0)
+			return (cmd[0]);
+		else
+			return (NULL);
+	}
 	while (path_join[idx] != NULL)
 	{
 		path = ft_strjoin(path_join[idx], cmd[0]);
