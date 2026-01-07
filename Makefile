@@ -53,6 +53,27 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L$(DIR_LIBFT) -lft -o $@
 	@echo "\n$(C_GREEN);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
 
+$(OBJS_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
+
+bonus: $(NAME_BONUS)
+	
+$(NAME_BONUS): $(LIBFT) $(OBJS_BONUS)
+	@echo "\n$(C_GREEN);1m\t-> Compiling files...$(C_END)\n"
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o $@
+	@echo "\n$(C_GREEN);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
+
+$(OBJS_BONUS_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJS_BONUS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
+
+$(LIBFT) :
+	@$(MAKE) -sC $(DIR_LIBFT) all --no-print-directory
+	@echo "\n$(C_BLUE)m\t-> $@ compiled$(C_END)\n"
+
 val: $(LIBFT) $(OBJS)
 	@echo "\n$(C_BLUE);1m\t-> Compiling with test flags\n$(C_END)"
 	$(CC) $(CFLAGS) $(C_TEST) $(OBJS) -L$(DIR_LIBFT) -lft -o $(NAME)
@@ -67,30 +88,7 @@ mem: $(NAME)
 				--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
 				$(EXEC) $(ARGS)
 
-bonus: $(NAME_BONUS)
-	
-$(NAME_BONUS): $(LIBFT) $(OBJS_BONUS)
-	@echo "\n$(C_GREEN);1m\t-> Compiling files...$(C_END)\n"
-	$(CC) $(CFLAGS) $(OBJS_BONUS) -L$(DIR_LIBFT) -lft -o $@
-	@echo "\n$(C_GREEN);1m\t-> $(NAME) compiled successfully!$(C_END)\n"
-
-$(OBJS_DIR)/%.o: src/%.c
-	@mkdir -p $(OBJS_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
-
-$(OBJS_BONUS_DIR)/%.o: src/%.c
-	@mkdir -p $(OBJS_BONUS_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(C_GREEN)m\t-> $(C_BOLD)[ COMPILED ] $(C_END) $(C_GREEN)m $(notdir $<)$(C_END)"
-
-$(LIBFT) :
-	@$(MAKE) -sC $(DIR_LIBFT) all --no-print-directory
-	@echo "\n$(C_BLUE)m\t-> $@ compiled$(C_END)\n"
-
-
 # ----- Clean -----
-	
 clean:
 	@$(MAKE) -sC $(DIR_LIBFT) $@
 	@rm -fr $(OBJS_DIR)
