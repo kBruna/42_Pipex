@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 15:26:22 by buehara           #+#    #+#             */
-/*   Updated: 2026/01/06 16:11:01 by buehara          ###   ########.fr       */
+/*   Updated: 2026/01/09 15:55:04 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	pipex_init(int argc, char **argv, int *infile, int *outfile)
 
 	if (argc != 5)
 	{
-		ft_putstr_fd("Error: Insufficient parameters\n", 2);
+		ft_putstr_fd("Error: Excepted 4 parameters\n", 2);
 		exit (ERROR);
 	}
 	file_permissions = O_CREAT | O_WRONLY | O_TRUNC;
